@@ -1,0 +1,37 @@
+# Change these
+owner-email = "test@test.io"
+owner-name = "Test USer"
+dns-suffix = "test.com"
+key-name = "my_ssh_key"
+purpose = "Kafka-lab" 
+
+# Adjust these per your needs
+region = "us-east-1"
+aws-ami-id = "ami-XXXXX"
+
+zk-count = 1
+broker-count = 2
+#connect-count = 0
+schema-count = 2
+#rest-count = 0
+#ksql-count = 0
+c3-count = 1
+
+vpc-security-group-ids = ["sg-XXXXX"]
+vpc-id = "vpc-XXXXX"
+availability-zone = ["us-east-1a"]
+subnet-id = ["subnet-XXXXX"]
+
+zk-instance-type = "t3a.medium"
+broker-instance-type = "r5.2xlarge"
+schema-instance-type = "t3a.medium"
+connect-instance-type = "t3a.large"
+rest-instance-type = "t3a.medium"
+c3-instance-type = "r5.2xlarge"
+ksql-instance-type = "t3a.large"
+client-instance-type = "t3a.large"
+
+hosted-zone-id = "XXXXXX"
+
+
+

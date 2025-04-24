@@ -1,0 +1,151 @@
+region               = "us-east-1"
+environment          = "RRCHAK-AWS-DEV"
+vpc_cidr             = "10.0.0.0/16"
+public_subnets_cidr  = ["10.0.1.0/24", "10.0.2.0/24", "10.0.3.0/24"]
+private_subnets_cidr = ["10.0.4.0/24", "10.0.5.0/24", "10.0.6.0/24"]
+# Change these
+owner-email = "test@test.io"
+owner-name  = "Terraform User"
+dns-suffix  = "tfuser"
+key-name    = "Your_Private_SSH_KEy"
+purpose     = "Ansible-lab"
+
+
+aws-ami-id = "ami-XXX"
+
+zk-count     = 1
+broker-count = 3
+#connect-count = 0
+schema-count = 1
+#rest-count = 0
+#ksql-count = 0
+c3-count = 1
+
+volume_size = 20
+
+
+zk-instance-type      = "t3a.medium"
+broker-instance-type  = "r5.2xlarge"
+schema-instance-type  = "t3a.medium"
+connect-instance-type = "t3a.large"
+rest-instance-type    = "t3a.medium"
+c3-instance-type      = "r5.2xlarge"
+ksql-instance-type    = "t3a.large"
+client-instance-type  = "t3a.large"
+
+hosted-zone-id = "yyyy"
+
+# The AWS account ID to enable for the Private Link Access.
+# You can find your AWS account ID here (https://console.aws.amazon.com/billing/home?#/account) under My Account section of the AWS Management Console. Must be a 12 character string.
+aws_account_id = "111111111"
+
+# The VPC ID that you want to connect to Confluent Cloud Cluster
+# Enable DNS hostnames
+# Enable DNS resolution
+vpc_id = "vpc-xxxx"
+
+# The region of your VPC that you want to connect to Confluent Cloud Cluster
+# Cross-region AWS PrivateLink connections are not supported yet.
+region = "us-east-1"
+
+# The map of Zone ID to Subnet ID. You can find subnets to private link mapping information by clicking at VPC -> Subnets from your AWS Management Console (https://console.aws.amazon.com/vpc/home)
+# https://us-west-1.console.aws.amazon.com/vpc/home?region=us-east-1#subnets:search=vpc-abcdexxxxxxx
+# You must have subnets in your VPC for these zones so that IP addresses can be allocated from them.
+subnets_to_privatelink = {
+  "use1-az1" = "subnet-xxx",
+  "use1-az2" = "subnet-yyy",
+  "use1-az4" = "subnet-zzz"
+}
+
+# Limitations of AWS PrivateLink
+# https://docs.confluent.io/cloud/current/networking/private-links/aws-privatelink.html#limitations
+
+## Confluent Cloud Related
+
+confluent_cloud_api_key    = "xxx"
+confluent_cloud_api_secret = "yyy"
+
+# Availibility : SINGLE ou MULTI Zone
+availability_zone = "MULTI_ZONE"
+
+# Number of CKU 
+cku_number = 2
+
+# Confluent Cloud Cluster Name
+cluster_name = "test_azurepvtlnk"
+
+accounts = {
+  rrchakapp1-app-manager = {
+    description = "'app-manager' service account."
+  }
+
+  rrchakapp1-app-consumer = {
+    description = "Service account for app-consumer"
+  }
+
+  rrchakapp1-app-producer = {
+    description = "Service account for app-producer"
+  }
+}
+
+
+service_accounts = {
+  "rrchakapp1-app-consumer" = {
+    display_name = "rrchakapp1-app-consumer"
+    role_definitions = [
+      {
+        role_name   = "DeveloperRead"
+        #crn_pattern = "cloud-cluster=your-cluster-id/kafka=your-cluster-id/topic=test1"
+        crn_pattern = "topic=test1"
+      },
+      {
+        role_name   = "DeveloperRead"
+        #crn_pattern = "cloud-cluster=your-cluster-id/kafka=your-cluster-id/group=test2"
+        crn_pattern = "group=test2"
+      }
+    ]
+  },
+  "rrchakapp1-app-producer" = {
+    display_name = "rrchakapp1-app-producer"
+    role_definitions = [
+      {
+        role_name   = "DeveloperWrite"
+        #crn_pattern = "cloud-cluster=your-cluster-id/kafka=your-cluster-id/topic=test3"
+        crn_pattern = "topic=test3"
+      },
+      {
+        role_name   = "ResourceOwner"
+        #crn_pattern = "cloud-cluster=your-cluster-id/kafka=your-cluster-id/transactional-id=*"
+        crn_pattern = "transactional-id=*"
+      }
+    ]
+  },
+  "rrchakapp1-app-manager" = {
+    display_name = "rrchakapp1-app-manager"
+    role_definitions = [
+      {
+        role_name   = "CloudClusterAdmin"
+        #crn_pattern = "cloud-cluster=your-cluster-id"
+        crn_pattern = ""
+      },
+      {
+        role_name   = "ResourceOwner"
+        crn_pattern = "schema-registry=lsrc-xxxxx/subject=*"
+      }
+    ]
+  }
+}
+
+topics = {
+  confluentPS-orders = {
+    partitions_count = 3
+    cleanup_policy   = "delete"
+  }
+  confluentPS-customers = {
+    partitions_count = 6
+    cleanup_policy   = "compact"
+  }
+}
+
+
+

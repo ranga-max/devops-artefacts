@@ -1,0 +1,39 @@
+region               = "us-east-1"
+environment          = "RRCHAK-AWS-DEV"
+vpc_cidr             = "10.0.0.0/16"
+public_subnets_cidr  = ["10.0.1.0/24", "10.0.2.0/24", "10.0.3.0/24"]
+private_subnets_cidr = ["10.0.4.0/24", "10.0.5.0/24", "10.0.6.0/24"]
+# Change these
+owner-email = "test@test.io"
+owner-name = "Test User"
+dns-suffix = "testdc1"
+key-name = "My_Private_Key"
+purpose = "Ansible-lab"
+
+
+# Adjust these to your trainer's instructions
+# Ubuntu 22
+aws-ami-id = "ami-xxxxx"
+
+zk-count     = 1
+broker-count = 3
+#connect-count = 0
+schema-count = 1
+#rest-count = 0
+#ksql-count = 0
+c3-count = 1
+
+volume_size = 20
+
+
+zk-instance-type      = "t3a.medium"
+broker-instance-type  = "r5.2xlarge"
+schema-instance-type  = "t3a.medium"
+connect-instance-type = "t3a.large"
+rest-instance-type    = "t3a.medium"
+c3-instance-type      = "r5.2xlarge"
+ksql-instance-type    = "t3a.large"
+client-instance-type  = "t3a.large"
+
+hosted-zone-id = "Zzzzzzz"
+

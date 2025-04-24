@@ -1,0 +1,162 @@
+{
+  "broker_alternate_dns": {
+    "sensitive": false,
+    "type": [
+      "tuple",
+      [
+        [
+          "tuple",
+          [
+            "string",
+            "string"
+          ]
+        ]
+      ]
+    ],
+    "value": [
+      [
+        "kafka-0.rrchakdc1",
+        "kafka-1.rrchakdc1"
+      ]
+    ]
+  },
+  "broker_private_dns": {
+    "sensitive": false,
+    "type": [
+      "tuple",
+      [
+        [
+          "tuple",
+          [
+            "string",
+            "string"
+          ]
+        ]
+      ]
+    ],
+    "value": [
+      [
+        "ip-192-168-171-16.ec2.internal",
+        "ip-192-168-167-56.ec2.internal"
+      ]
+    ]
+  },
+  "cluster_data": {
+    "sensitive": false,
+    "type": [
+      "object",
+      {
+        "ssh_key": "string",
+        "ssh_username": "string"
+      }
+    ],
+    "value": {
+      "ssh_key": "Week2_Trng",
+      "ssh_username": "ubuntu"
+    }
+  },
+  "connect_alternate_dns": {
+    "sensitive": false,
+    "type": [
+      "tuple",
+      [
+        [
+          "tuple",
+          []
+        ]
+      ]
+    ],
+    "value": [
+      []
+    ]
+  },
+  "control_center_alternate_dns": {
+    "sensitive": false,
+    "type": [
+      "tuple",
+      [
+        [
+          "tuple",
+          [
+            "string"
+          ]
+        ]
+      ]
+    ],
+    "value": [
+      [
+        "controlcenter-0.rrchakdc1"
+      ]
+    ]
+  },
+  "ksql_alternate_dns": {
+    "sensitive": false,
+    "type": [
+      "tuple",
+      [
+        [
+          "tuple",
+          []
+        ]
+      ]
+    ],
+    "value": [
+      []
+    ]
+  },
+  "rest_alternate_dns": {
+    "sensitive": false,
+    "type": [
+      "tuple",
+      [
+        [
+          "tuple",
+          []
+        ]
+      ]
+    ],
+    "value": [
+      []
+    ]
+  },
+  "schema_alternate_dns": {
+    "sensitive": false,
+    "type": [
+      "tuple",
+      [
+        [
+          "tuple",
+          [
+            "string",
+            "string"
+          ]
+        ]
+      ]
+    ],
+    "value": [
+      [
+        "schema-0.rrchakdc1",
+        "schema-1.rrchakdc1"
+      ]
+    ]
+  },
+  "zookeeper_alternate_dns": {
+    "sensitive": false,
+    "type": [
+      "tuple",
+      [
+        [
+          "tuple",
+          [
+            "string"
+          ]
+        ]
+      ]
+    ],
+    "value": [
+      [
+        "zookeeper-0.rrchakdc1"
+      ]
+    ]
+  }
+}
