@@ -1,0 +1,295 @@
+//Pass it here
+
+# The Azure tenant ID in which Subscription exists
+# Represents an organization in Azure Active Directory. You can find your Azure Tenant ID in the [Azure Portal under Azure Active Directory](https://portal.azure.com/#blade/Microsoft_AAD_IAM/ActiveDirectoryMenuBlade/Overview). Must be a valid **32 character UUID string**.
+tenant_id = "azuretenantid"
+
+# The Azure subscription ID to enable for the Private Link Access where your VNet exists.
+# You can find your Azure subscription ID in the [Azure Portal on the Overview tab of your Azure Virtual Network](https://portal.azure.com/#blade/HubsExtension/BrowseResource/resourceType/Microsoft.Network%2FvirtualNetworks). Must be a valid 32 character UUID string.
+subscription_id = "azuresubscriptionid"
+
+
+# The ID of the Client on Azure
+# Follow Authenticating to Azure using a Service Principal and a Client Secret guide:
+# https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/guides/service_principal_client_secret#creating-a-service-principal
+# to create Client ID and Client Secret
+client_id = "azureclientid"
+
+# The Secret of the Client on Azure
+client_secret = "azureclientsecret"
+
+
+
+# The name of the Azure Resource Group that the virtual network belongs to.
+# You can find the name of your Azure Resource Group in the [Azure Portal on the Overview tab of your Azure Virtual Network](https://portal.azure.com/#blade/HubsExtension/BrowseResource/resourceType/Microsoft.Network%2FvirtualNetworks).
+rg_name = "rrchak"
+
+# The name of your VNet that you want to connect to Confluent Cloud Cluster
+# You can find the name of your Azure VNet in the [Azure Portal on the Overview tab of your Azure Virtual Network](https://portal.azure.com/#blade/HubsExtension/BrowseResource/resourceType/Microsoft.Network%2FvirtualNetworks).
+vnet_name = "rrchakazurepoc_vnet"
+
+# The region of your Azure VNet
+rg_location = "eastus"
+
+
+# A map of Zone to Subnet Name
+# On Azure, zones are Confluent-chosen names (for example, `1`, `2`, `3`) since Azure does not have universal zone identifiers.
+subnet_name_by_zone = {
+  "1" = "rrchak-privsub1",
+  "2" = "rrchak-privsub2",
+  "3" = "rrchak-privsub3"
+}
+
+tags = {
+    environment = "dev"
+    costcenter  = "it"
+    owner_email = "test@test.io"
+  }
+
+use_for_each = true
+vnet_address_space   = ["10.0.0.0/16"]
+#service_endpoints = ["Microsoft.KeyVault", "Microsoft.Storage"]
+#vnetdnsservers = ["10.0.0.4", "10.0.0.5"]
+
+subnet_prefixes     = ["10.0.1.0/24", "10.0.2.0/24", "10.0.3.0/24"]
+subnet_names        = ["rrchak-privsub1", "rrchak-privsub2", "rrchak-privsub3"]
+subnet_nsgs         = ["nsgrs1", "nsgrs1", "nsgrs1"]
+
+publicsubnets = {
+  key1 = { name = "rrchak-pubsub1", address = "10.0.4.0/24" }
+  key2 = { name = "rrchak-pubsub2", address = "10.0.5.0/24" }
+}
+
+subnet_service_endpoints = {
+    rrchak-privsub1 = [
+    "Microsoft.AzureActiveDirectory",
+    "Microsoft.AzureCosmosDB",
+    "Microsoft.EventHub",
+    "Microsoft.KeyVault",
+    "Microsoft.ServiceBus",
+    "Microsoft.Sql",
+    "Microsoft.Storage",
+  ],
+    rrchak-privsub2 = [
+    "Microsoft.AzureActiveDirectory",
+    "Microsoft.AzureCosmosDB",
+    "Microsoft.EventHub",
+    "Microsoft.KeyVault",
+    "Microsoft.ServiceBus",
+    "Microsoft.Sql",
+    "Microsoft.Storage",
+  ],
+    rrchak-privsub3 = [
+    "Microsoft.AzureActiveDirectory",
+    "Microsoft.AzureCosmosDB",
+    "Microsoft.EventHub",
+    "Microsoft.KeyVault",
+    "Microsoft.ServiceBus",
+    "Microsoft.Sql",
+    "Microsoft.Storage",
+  ]
+  }
+
+nsgrules = {  
+   nsgrs1 = { nsg_inbound_rules = [
+        # [name, priority, direction, access, protocol, destination_port_range, source_address_prefix, destination_address_prefix]
+        # To use defaults, use "" without adding any values.
+        ["weballow", "100", "Inbound", "Allow", "Tcp", "80", "*", "0.0.0.0/0"],
+        ["weballow1", "101", "Inbound", "Allow", "", "443", "*", ""],
+        ["weballow2", "102", "Inbound", "Allow", "Tcp", "8080-8090", "*", ""],
+         ],
+         nsg_outbound_rules = [
+        # [name, priority, direction, access, protocol, destination_port_range, source_address_prefix, destination_address_prefix]
+        # To use defaults, use "" without adding any values.
+        ["ntp_out", "103", "Outbound", "Allow", "Udp", "123", "", "0.0.0.0/0"],
+        ["https_out", "104", "Outbound", "Allow", "Tcp", "443", "", "0.0.0.0/0"],
+        ["http_out", "105", "Outbound", "Allow", "Tcp", "80", "", "0.0.0.0/0"],
+         ] }
+}   
+
+linux_distribution_name = "ubuntu2004"
+vm_node_name = "vm-public"
+vm_instance_type    = "Standard_A2_V2"
+#admin_ssh_key_data = "/tmp/pvt_key.key"
+public-vm-count = 1
+owner-name  = "rrchak"
+key_name = "azurepoc"
+
+#data_disks = [
+#    {
+#      name                 = "disk1"
+#      disk_size_gb         = 100
+#      storage_account_type = "StandardSSD_LRS"
+#    },
+#    {
+#      name                 = "disk2"
+#      disk_size_gb         = 200
+#      storage_account_type = "Standard_LRS"
+#    }
+#  ]
+
+data_disks = [
+    {
+      name                 = "disk1"
+      disk_size_gb         = 100
+      storage_account_type = "StandardSSD_LRS"
+    }
+  ]  
+
+nsg_inbound_rules_private = [
+    {
+      name                   = "ssh"
+      destination_port_range = "22"
+      source_address_prefix  = "*"
+    },
+    {
+      name                   = "http"
+      destination_port_range = "80"
+      source_address_prefix  = "*"
+    },
+  ]
+
+nsg_inbound_rules_public = [
+    {
+      name                   = "ssh"
+      destination_port_range = "22"
+      source_address_prefix  = "*"
+    },
+    {
+      name                   = "http"
+      destination_port_range = "80"
+      source_address_prefix  = "*"
+    },
+    {
+      name                   = "https"
+      destination_port_range = "443"
+      source_address_prefix  = "xx.xx.xx.xx/32"
+    },
+    {
+      name                   = "tcp"
+      destination_port_range = "9092"
+      source_address_prefix  = "xx.xx.xx.xx/32"
+    },
+  ]
+
+## Confluent Cloud Related
+
+confluent_cloud_api_key    = "xxx"
+confluent_cloud_api_secret = "yyy"
+
+#env_confluentPS = "env-xxxxxx"
+
+# confluentPS Environement ID for Non production
+#env_entreprise_nprd_id = "env-xxxxxx"
+
+# Confluent Cloud Cluster Name
+cluster_name = "rrchak_azurepvtlnk"
+
+# Availibility : SINGLE ou MULTI Zone
+availability_zone = "MULTI_ZONE"
+
+# Number of CKU 
+cku_number = 2
+
+# Service Accounts list
+accounts = {
+  rrchakapp1-app-manager = {
+    description = "'app-manager' service account."
+  }
+
+  rrchakapp1-app-consumer = {
+    description = "Service account for app-consumer"
+  }
+
+  rrchakapp1-app-producer = {
+    description = "Service account for app-producer"
+  }
+
+  rrchakapp1-metricsimporter = {
+    description = "A test service account to import Confluent Cloud metrics into our monitoring system"
+  }
+}
+
+sr_accounts = {
+  rrchakapp1-sr-user = {
+    description = " Schema Registry User service account."
+  }
+}
+
+
+service_accounts = {
+  "rrchakapp1-app-consumer" = {
+    display_name = "rrchakapp1-app-consumer"
+    role_definitions = [
+      {
+        role_name   = "DeveloperRead"
+        #crn_pattern = "cloud-cluster=your-cluster-id/kafka=your-cluster-id/topic=test1"
+        crn_pattern = "topic=test1"
+      },
+      {
+        role_name   = "DeveloperRead"
+        #crn_pattern = "cloud-cluster=your-cluster-id/kafka=your-cluster-id/group=test2"
+        crn_pattern = "group=test2"
+      }
+    ]
+  },
+  "rrchakapp1-app-producer" = {
+    display_name = "rrchakapp1-app-producer"
+    role_definitions = [
+      {
+        role_name   = "DeveloperWrite"
+        #crn_pattern = "cloud-cluster=your-cluster-id/kafka=your-cluster-id/topic=test3"
+        crn_pattern = "topic=test3"
+      },
+      {
+        role_name   = "ResourceOwner"
+        #crn_pattern = "cloud-cluster=your-cluster-id/kafka=your-cluster-id/transactional-id=*"
+        crn_pattern = "transactional-id=*"
+      }
+    ]
+  },
+  "rrchakapp1-app-manager" = {
+    display_name = "rrchakapp1-app-manager"
+    role_definitions = [
+      {
+        role_name   = "CloudClusterAdmin"
+        #crn_pattern = "cloud-cluster=your-cluster-id"
+        crn_pattern = ""
+      }
+    ]
+  },
+   "rrchakapp1-metricsimporter" = {
+    display_name = "rrchakapp1-metricsimporter"
+    role_definitions = [
+      {
+        role_name   = "MetricsViewer"
+        #crn_pattern = "cloud-cluster=your-cluster-id/kafka=your-cluster-id/topic=test3"
+        crn_pattern = ""
+      }
+    ]
+  }
+}
+
+sr_service_accounts = {
+  "rrchakapp1-sr-user" = {
+    display_name = "rrchakapp1-sr-user"
+    role_definitions = [
+      {
+        role_name   = "ResourceOwner"
+        #crn_pattern = "cloud-cluster=your-cluster-id/kafka=your-cluster-id/topic=test1"
+        crn_pattern = "subject=*"
+      }
+    ]
+  }
+} 
+
+
+kafka_api_key    = "xxx"
+kafka_api_secret = "yyy"
+
+enable_rbac_module = true
+enable_networking_module = true
+enable_compute_module = true
+enable_cccluster_module = true
+enable_pl_module = true
+enable_sa_module = true

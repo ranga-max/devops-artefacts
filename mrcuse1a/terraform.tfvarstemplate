@@ -1,0 +1,52 @@
+# Change these
+owner-email = "test@test.io"
+owner-name = "TEST USER"
+dns-suffix = "rrchakdc1"
+key-name = "Week2_Trng"
+purpose = "Ansible-lab" 
+
+# Adjust these to your trainer's instructions
+region = "us-east-1"
+#aws-ami-id = "ami-xxx" --latest ubuntu 22
+#aws-ami-id = "ami-yyy"
+#aws-ami-id = "ami-zzz" - 18.04 ubuntu
+aws-ami-id = "ami-xxxxx"
+
+zk-count = 2
+broker-count = 3
+connect-count = 0
+schema-count = 0
+rest-count = 0
+ksql-count = 0
+c3-count = 0
+
+zk-dns-count = 2
+broker-dns-count = 3
+connect-dns-count = 1
+schema-dns-count = 1
+rest-dns-count = 0
+ksql-dns-count = 0
+c3-dns-count = 0
+
+#Except for ZK other components are co-located in Kafka Broker Nodes
+share_mode = true
+publicip_flag = false
+
+vpc-security-group-ids = ["sg-xxxx"]
+vpc-id = "vpc-yyyy"
+availability-zone = ["us-east-1a"]
+subnet-id = ["subnet-xxxx"]
+
+zk-instance-type = "t3a.medium"
+broker-instance-type = "r5.2xlarge"
+schema-instance-type = "t3a.medium"
+connect-instance-type = "t3a.large"
+rest-instance-type = "t3a.medium"
+c3-instance-type = "r5.2xlarge"
+ksql-instance-type = "t3a.large"
+client-instance-type = "t3a.large"
+
+hosted-zone-id = "Zzzzzzz"
+
+
+
