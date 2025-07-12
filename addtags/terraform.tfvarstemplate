@@ -1,0 +1,7 @@
+common_tags = {
+    managed_by   = "xxx"
+    user_id   = "xxx"
+    environment  = "dev"
+  }
+
+resource_ids = ["i-0YYYYY", "i-0XXXX"]
